@@ -122,7 +122,7 @@ public class Lexico {
                         break;
                     }
                     case 11: {
-                        _tokens[_noTokens] = "Prueba";
+                        _tokens[_noTokens] = "Hola que hace";
                         break;
                     }
                     //----------Automata terminador de instrucciòn----------
