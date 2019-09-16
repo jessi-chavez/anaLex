@@ -34,8 +34,6 @@ public class Automata {
 
             case 2:
                 return ReconocePotencia(texto, i, iniToken);
-//            case 2:
-//                return ReconoceOpRelacional(texto, i, iniToken);
 
             //--------------  Automata  OpAsig--------------
             case 3:
@@ -77,6 +75,9 @@ public class Automata {
             //--------------  Automata  termInst--------------
             case 13:
                 return ReconoceTer(texto, i, iniToken);
+            //--------------  Automata  relacional--------------
+            case 14:
+                return ReconoceOpRelacional(texto, i, iniToken);
         }
         return false;
     }

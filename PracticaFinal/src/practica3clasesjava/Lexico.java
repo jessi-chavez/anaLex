@@ -2,7 +2,7 @@ package practica3clasesjava;
 
 public class Lexico {
 
-    final int TOKREC = 12;
+    final int TOKREC = 15;
     final int MAXTOKENS = 500;
     String[] _lexemas;
     String[] _tokens;
@@ -63,7 +63,7 @@ public class Lexico {
         while (_i[0] < texto.length()) {
             recAuto = false;
             noAuto = 0;
-            for (; noAuto < TOKREC && !recAuto;) {
+            for (; noAuto <= TOKREC && !recAuto;) {
                 if (oAFD.Reconoces(texto, _iniToken, _i, noAuto)) {
                     recAuto = true;
                 } else {

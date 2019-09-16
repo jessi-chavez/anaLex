@@ -8,7 +8,7 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
 
     public AnaLex7TokensApp() {
         initComponents();
-        this.setSize(800, 600);
+        this.setSize(966, 536);
 
     }
 
@@ -36,14 +36,15 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("PROGRAMA FUENTE");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(24, 50, 136, 17);
+        jLabel1.setBounds(10, 10, 136, 17);
 
         txaProgFuente.setColumns(20);
+        txaProgFuente.setLineWrap(true);
         txaProgFuente.setRows(5);
         jScrollPane1.setViewportView(txaProgFuente);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(24, 73, 349, 320);
+        jScrollPane1.setBounds(10, 30, 530, 320);
 
         tblParejasTL.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,12 +72,12 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tblParejasTL);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(390, 70, 370, 320);
+        jScrollPane2.setBounds(560, 30, 370, 320);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("PAREJAS TOKENS-LEXEMAS ");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(390, 50, 200, 17);
+        jLabel2.setBounds(560, 10, 200, 17);
 
         btnAnaSin.setLabel("Análisis Sintáctico");
         btnAnaSin.addActionListener(new java.awt.event.ActionListener() {
@@ -85,19 +86,19 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnAnaSin);
-        btnAnaSin.setBounds(30, 400, 150, 30);
+        btnAnaSin.setBounds(10, 370, 150, 30);
 
         lblResult.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblResult.setText("Resultado del Análisis Sintáctico");
         getContentPane().add(lblResult);
-        lblResult.setBounds(30, 440, 200, 17);
+        lblResult.setBounds(170, 380, 200, 17);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnaSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnaSinActionPerformed
         anaLex.Inicia();
-        if (anaLex.Analiza(txaProgFuente.getText())) {
+        if (anaLex.Analiza(txaProgFuente.getText()) && !"".equals(txaProgFuente.getText())) {
             lblResult.setText("Lexical correct");
         } else {
             lblResult.setText("Lexical error");
