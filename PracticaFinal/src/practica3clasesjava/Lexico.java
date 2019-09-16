@@ -86,51 +86,55 @@ public class Lexico {
                         break;
                     //--------------  Automata  OpAsig--------------
                     case 2:
-                        _tokens[_noTokens] = "opAsig";
+                        _tokens[_noTokens] = "Potencia";
                         break;
                     //--------------  Automata  incremento--------------
                     case 3:
-                        _tokens[_noTokens] = "incr";
+                        _tokens[_noTokens] = "OpAsig";
                         break;
                     //--------------  Automata  arit-------------- 
                     case 4:
-                        _tokens[_noTokens] = "arit 1";
+                        _tokens[_noTokens] = "IncDecr";
                         break;
                     //--------------  Automata  arit-------------- 
                     case 5:
-                        _tokens[_noTokens] = "arit 2";
+                        _tokens[_noTokens] = "Logico";
                         break;
                     //--------------  Automata  arit-------------- 
                     case 6:
-                        _tokens[_noTokens] = "arit 3";
+                        _tokens[_noTokens] = "Numero";
                         break;
 
                     //--------------  Automata  num--------------
                     case 7:
-                        _tokens[_noTokens] = "num";
+                        _tokens[_noTokens] = "Separador";
                         break;
                     //--------------  Automata  sep--------------
                     case 8:
-                        _tokens[_noTokens] = "sep";
+                        _tokens[_noTokens] = "Cadena";
                         break;
                     //--------------  Automata  termInst--------------
                     case 9:
-                        _tokens[_noTokens] = "cad";
+                        _tokens[_noTokens] = "Caracter";
                         break;
                     case 10: {
-                        _tokens[_noTokens] = "comentario";
+                        _tokens[_noTokens] = "Comentario 1";
                         break;
                     }
                     case 11: {
-                        _tokens[_noTokens] = "Hola que hace";
+                        _tokens[_noTokens] = "Comentario 2";
                         break;
                     }
                     //----------Automata terminador de instrucciòn----------
                     case 12:
-                        _tokens[_noTokens] = _lexema;
+                        _tokens[_noTokens] = "OpArit";
                         break;
                     case 13:
-                        _tokens[_noTokens] = _lexema;
+                        _tokens[_noTokens] = "TermInst";
+                        break;
+
+                    case 14:
+                        _tokens[_noTokens] = "Relacional";
                         break;
                 }
                 if (noAuto != 0) {
