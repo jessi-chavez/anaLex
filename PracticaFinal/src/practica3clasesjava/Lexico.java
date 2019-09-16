@@ -1,19 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practica3clasesjava;
 
-import javax.swing.JOptionPane;
-
-/**
- *
- * @author Alonso Martinez
- */
 public class Lexico {
 
-    final int TOKREC = 12;
+    final int TOKREC = 15;
     final int MAXTOKENS = 500;
     String[] _lexemas;
     String[] _tokens;
@@ -30,9 +19,9 @@ public class Lexico {
             "native", "new", "package", "private", "protected", "public", "return", "short",
             "static", "super", "switch", "synchronized", "this", "throw", "throws", "transient",
             "try", "void", "while", "leer", "visua"};
-        
-        for (int i = 0; i < palRes.length; i++) {
-            if (_lexema.equals(palRes[i])) {
+
+        for (String palRe : palRes) {
+            if (_lexema.equals(palRe)) {
                 return false;
             }
         }
@@ -70,12 +59,11 @@ public class Lexico {
     public boolean Analiza(String texto) {
         boolean recAuto;
         int noAuto;
-//     int t = ;
 
         while (_i[0] < texto.length()) {
             recAuto = false;
             noAuto = 0;
-            for (; noAuto < TOKREC && !recAuto;) {
+            for (; noAuto <= TOKREC && !recAuto;) {
                 if (oAFD.Reconoces(texto, _iniToken, _i, noAuto)) {
                     recAuto = true;
                 } else {
@@ -93,28 +81,28 @@ public class Lexico {
                         if (EsId()) {
                             _tokens[_noTokens] = "id";
                         } else {
-                            _tokens[_noTokens] = _lexema;
+                            _tokens[_noTokens] = "palRes";
                         }
                         break;
                     //--------------  Automata  OpAsig--------------
                     case 2:
-                        _tokens[_noTokens] = _lexema;
+                        _tokens[_noTokens] = "opAsig";
                         break;
                     //--------------  Automata  incremento--------------
                     case 3:
-                        _tokens[_noTokens] = _lexema;
+                        _tokens[_noTokens] = "incr";
                         break;
                     //--------------  Automata  arit-------------- 
                     case 4:
-                        _tokens[_noTokens] = _lexema;
+                        _tokens[_noTokens] = "arit 1";
                         break;
                     //--------------  Automata  arit-------------- 
                     case 5:
-                        _tokens[_noTokens] = _lexema;
+                        _tokens[_noTokens] = "arit 2";
                         break;
                     //--------------  Automata  arit-------------- 
                     case 6:
-                        _tokens[_noTokens] = _lexema;
+                        _tokens[_noTokens] = "arit 3";
                         break;
 
                     //--------------  Automata  num--------------
@@ -123,7 +111,7 @@ public class Lexico {
                         break;
                     //--------------  Automata  sep--------------
                     case 8:
-                        _tokens[_noTokens] = _lexema;
+                        _tokens[_noTokens] = "sep";
                         break;
                     //--------------  Automata  termInst--------------
                     case 9:
@@ -155,9 +143,9 @@ public class Lexico {
         }
         return true; //El análisis léxico ha sido exitoso cuando acaba el while 
     }
-    
+
     public void Anade(String tok, String lex) {
-       _tokens[_noTokens]=tok;
-       _lexemas[_noTokens++]=lex;
+        _tokens[_noTokens] = tok;
+        _lexemas[_noTokens++] = lex;
     }
 }
