@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practica3clasesjava;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- *
- * @author friosa
- */
 public class Automata {
 
     String _textoIma;
@@ -43,8 +34,8 @@ public class Automata {
 
             case 2:
                 return ReconocePotencia(texto, i, iniToken);
-            case 2:
-                return ReconoceOpRelacional(texto, i, iniToken);
+//            case 2:
+//                return ReconoceOpRelacional(texto, i, iniToken);
 
             //--------------  Automata  OpAsig--------------
             case 3:
@@ -630,9 +621,9 @@ public class Automata {
             return false;
         }
     }
-    
+
     private boolean ReconoceComentarioLineas(String texto, int[] _i, int iniToken) {
-    //Reconcer cualquier número de caracteres (1 o más) que sean parte
+        //Reconcer cualquier número de caracteres (1 o más) que sean parte
         //del ASCII y estén entre comillas.
         Pattern pa = Pattern.compile("[/][*][\\p{ASCII}]+[*][/]");
         Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
@@ -660,7 +651,7 @@ public class Automata {
     }
 
     private boolean ReconoceComentario(String texto, int[] _i, int iniToken) {
-    //Reconcer cualquier número de caracteres (1 o más) que sean parte
+        //Reconcer cualquier número de caracteres (1 o más) que sean parte
         //del ASCII y estén entre comillas.
         Pattern pa = Pattern.compile("[/][/][\\p{ASCII}]+[ ]");
         Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
@@ -686,9 +677,9 @@ public class Automata {
             return false;
         }
     }
-    
-     private boolean ReconocePotencia(String texto, int[] _i, int iniToken) {
-         //String Operadores 
+
+    private boolean ReconocePotencia(String texto, int[] _i, int iniToken) {
+        //String Operadores 
         Pattern pa = Pattern.compile("[*][*]");
         String txt;
 
@@ -709,136 +700,5 @@ public class Automata {
             //Si falla, intentaremos compararlo con --
         }
         return m;
-     }
-
-    /* public boolean Reconoce(String texto,int iniToken, int[] i,int noAuto) 
-  {
-     char c;
-     _textoIma = texto;
-     String lenguaje;
-     switch (noAuto) 
-     {
-       //--------------  Automata  delim--------------
-      case 0 : _edoAct = 0;
-                    break;
-       //--------------  Automata  id--------------
-      case 1 : _edoAct = 3;
-                    break;
-       //--------------  Automata  OpAsig--------------
-      case 2 : _edoAct = 6;
-                    break;
-       //--------------  Automata  oparit--------------
-      case 3 : _edoAct = 9;
-                    break;
-       //--------------  Automata  num--------------
-      case 4 : _edoAct = 11;
-                    break;
-       //--------------  Automata  sep--------------
-      case 5 : _edoAct = 14;
-                    break;
-       //--------------  Automata  termInst--------------
-      case 6 : _edoAct = 16;
-                    break;
-     }
-     while(i[0]<=_textoIma.length())
-       switch (_edoAct)
-       {
-       //--------------  Automata  delim--------------
-      case 0 : c=SigCar(i);
-                    if ((lenguaje=" \n\r\t").indexOf(c)>=0)  _edoAct=1;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 1 : c=SigCar(i);
-                    if ((lenguaje=" \n\r\t").indexOf(c)>=0)  _edoAct=1;  else 
-                    if ((lenguaje="!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿\f").indexOf(c)>=0) _edoAct=2;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 2 : i[0]--;
-                    return true;
-       //--------------  Automata  id--------------
-      case 3 : c=SigCar(i);
-                    if ((lenguaje="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").indexOf(c)>=0)  _edoAct=4;  else 
-                    if ((lenguaje="_").indexOf(c)>=0)  _edoAct=4;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 4 : c=SigCar(i);
-                    if ((lenguaje="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").indexOf(c)>=0)  _edoAct=4;  else 
-                    if ((lenguaje="_").indexOf(c)>=0)  _edoAct=4;  else 
-                    if ((lenguaje="0123456789").indexOf(c)>=0)  _edoAct=4;  else 
-                    if ((lenguaje=" !\"#$%&\'()*+,-./:;<=>?@[\\]^`{|}~€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿\n\t\r\f").indexOf(c)>=0) _edoAct=5;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 5 : i[0]--;
-                    return true;
-       //--------------  Automata  OpAsig--------------
-      case 6 : c=SigCar(i);
-                    if ((lenguaje="+").indexOf(c)>=0)  _edoAct=7;  else 
-                    if ((lenguaje="-").indexOf(c)>=0)  _edoAct=7;  else 
-                    if ((lenguaje="*").indexOf(c)>=0)  _edoAct=7;  else 
-                    if ((lenguaje="/").indexOf(c)>=0)  _edoAct=7;  else 
-                    if ((lenguaje="%").indexOf(c)>=0)  _edoAct=7;  else 
-                    if ((lenguaje="=").indexOf(c)>=0)  _edoAct=8;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 7 : c=SigCar(i);
-                    if ((lenguaje="=").indexOf(c)>=0)  _edoAct=8;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 8 : return true;
-       //--------------  Automata  oparit--------------
-      case 9 : c=SigCar(i);
-                    if ((lenguaje="+").indexOf(c)>=0)  _edoAct=10;  else 
-                    if ((lenguaje="-").indexOf(c)>=0)  _edoAct=10;  else 
-                    if ((lenguaje="*").indexOf(c)>=0)  _edoAct=10;  else 
-                    if ((lenguaje="/").indexOf(c)>=0)  _edoAct=10;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 10 : return true;
-       //--------------  Automata  num--------------
-      case 11 : c=SigCar(i);
-                    if ((lenguaje="0123456789").indexOf(c)>=0)  _edoAct=12;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 12 : c=SigCar(i);
-                    if ((lenguaje="0123456789").indexOf(c)>=0)  _edoAct=12;  else 
-                    if ((lenguaje=" !\"#$%&\'()*+,-./:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿\n\t\r\f").indexOf(c)>=0) _edoAct=13;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 13 : i[0]--;
-                    return true;
-       //--------------  Automata  sep--------------
-      case 14 : c=SigCar(i);
-                    if ((lenguaje="(").indexOf(c)>=0)  _edoAct=15;  else 
-                    if ((lenguaje=")").indexOf(c)>=0)  _edoAct=15;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 15 : return true;
-       //--------------  Automata  termInst--------------
-      case 16 : c=SigCar(i);
-                    if ((lenguaje=";").indexOf(c)>=0)  _edoAct=17;  else 
-                     { i[0]=iniToken;
-                          return false; }
-                    break;
-      case 17 : return true;
-       }
-     switch (_edoAct) 
-     {       
-            case 2 :      // Autómata  delim
-            case 5 :      // Autómata  id
-            case 13 :      // Autómata  num
-                           --i[0];
-                           return true;
-     }
-     return false;
-  }*/
+    }
 }

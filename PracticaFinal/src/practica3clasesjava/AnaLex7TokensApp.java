@@ -1,93 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practica3clasesjava;
 
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author friosa
- */
 public class AnaLex7TokensApp extends javax.swing.JFrame {
+
     Lexico anaLex = new Lexico();
-    SintDescNRP anaSintNRP = new SintDescNRP();
-    /**
-     * Creates new form AnaLex7TokensApp
-     */
-    //Creates a new String with value puto
-    String lex = "puto";
-    
+
     public AnaLex7TokensApp() {
         initComponents();
         this.setSize(800, 600);
-        
+
     }
-    
-    public boolean Examen(String lex){
-        if(lex.length()!=3){return false;}
-        char c = lex.charAt(0);
-        if("AEIOUaeiou".indexOf(c)<0){return false;}
-        if(Character.isDigit(lex.charAt(1))||Character.isDigit(lex.charAt(2)))
-           return true;
-        return false;
-    }
-    
-    //Regresa números pares que no sean exponenciales
-    private boolean Boton1(String lexema[],int i){
-        if(!(lexema[i].indexOf("E")>0)||!(lexema[i].indexOf("e")>0)){
-            try{
-                int num = Integer.parseInt(lexema[i]);
-                if(num%2==0){
-                    lexema[i] = Integer.toString(num);
-                    return true;   
-                }
-                            else
-                    return false;
-            }catch(NumberFormatException e){
-                return false;
-            }
-        }else
-            return false;
-    }
-    
-    //Regresa los ids que sean de máximo cinco de longitud y tengan al menos una vocal
-    private boolean Boton2(String lexema[],int j,String token){
-        String Vocales = "AEIOUaeiou";
-        if(token.equals("id")){
-            if(lexema[j].length()<=5){
-                for(int i=0;i<lexema[j].length();i++){
-                    if(Vocales.indexOf(lexema[j].charAt(i))>0){
-                    return true;
-                    }
-                else {return true;}
-                }
-            }else return false;
-        }else if(lexema[j].charAt(0)=='"'){
-            String txt =lexema[j].substring(1,lexema[j].length()-1);
-            lexema[j] = txt; 
-            return true;
-        }else
-            return false;
-        return false;
-    }
-    
-    //Métodos para números mayores que 100
-    private boolean Boton3(String lexema){
-            try{
-                double num = Double.parseDouble(lexema);
-                if(num>100)
-                    return true;
-                     else
-                    return false;
-            }catch(NumberFormatException e){
-                return false;
-            }
-        
-    }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -104,26 +28,7 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
         tblParejasTL = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         btnAnaSin = new javax.swing.JButton();
-        btnPractica2 = new javax.swing.JButton();
-        btnPractica3 = new javax.swing.JButton();
-        btnPractica1 = new javax.swing.JButton();
         lblResult = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblProducciones = new javax.swing.JTable();
-        btnProd = new javax.swing.JButton();
-        lbl3 = new javax.swing.JLabel();
-        btnDI = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        lblNoEmpty = new javax.swing.JLabel();
-        btnEmptyDI = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        btnDosDI = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tblDosDI = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -182,474 +87,30 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
         getContentPane().add(btnAnaSin);
         btnAnaSin.setBounds(30, 400, 150, 30);
 
-        btnPractica2.setText("Practica Boton 2");
-        btnPractica2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPractica2ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPractica2);
-        btnPractica2.setBounds(400, 400, 160, 25);
-
-        btnPractica3.setText("Practica Boton 3");
-        btnPractica3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPractica3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPractica3);
-        btnPractica3.setBounds(580, 400, 160, 25);
-
-        btnPractica1.setText("Practica Boton 1");
-        btnPractica1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPractica1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPractica1);
-        btnPractica1.setBounds(220, 400, 160, 25);
-
         lblResult.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblResult.setText("Resultado del Análisis Sintáctico");
         getContentPane().add(lblResult);
         lblResult.setBounds(30, 440, 200, 17);
-
-        tblProducciones.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "No Prod", "Produccion"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(tblProducciones);
-
-        getContentPane().add(jScrollPane3);
-        jScrollPane3.setBounds(240, 520, 452, 110);
-
-        btnProd.setText("Producciones");
-        btnProd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProdActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnProd);
-        btnProd.setBounds(80, 520, 107, 25);
-
-        lbl3.setText("PRODUCCIONES REGISTRADAS");
-        getContentPane().add(lbl3);
-        lbl3.setBounds(240, 490, 190, 16);
-
-        btnDI.setText("DI");
-        btnDI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDIActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnDI);
-        btnDI.setBounds(100, 560, 79, 25);
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Terminal", "No ocurrencias"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(jTable1);
-
-        getContentPane().add(jScrollPane4);
-        jScrollPane4.setBounds(240, 700, 452, 150);
-
-        jButton1.setText("Contador de Terminales");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(40, 700, 180, 25);
-
-        jLabel3.setText("CONTADOR DE TERMINALES");
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(240, 660, 210, 16);
-
-        jLabel4.setText("Número de producciones usadas en la DI que tienen al Empty");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(240, 900, 360, 16);
-
-        lblNoEmpty.setText("jLabel5");
-        getContentPane().add(lblNoEmpty);
-        lblNoEmpty.setBounds(240, 940, 41, 16);
-
-        btnEmptyDI.setText("Empty en DIs");
-        btnEmptyDI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEmptyDIActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnEmptyDI);
-        btnEmptyDI.setBounds(50, 920, 140, 25);
-
-        jLabel5.setText("Número de producciones que aparecen al menos dos veces en la DI");
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(870, 490, 410, 16);
-
-        btnDosDI.setText("Dos veces en DI");
-        btnDosDI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDosDIActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnDosDI);
-        btnDosDI.setBounds(720, 560, 140, 25);
-
-        tblDosDI.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Produccion", "No. Veces"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane5.setViewportView(tblDosDI);
-
-        getContentPane().add(jScrollPane5);
-        jScrollPane5.setBounds(870, 520, 452, 100);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnaSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnaSinActionPerformed
         anaLex.Inicia();
-        if(anaLex.Analiza(txaProgFuente.getText())) {
-            anaSintNRP.Inicia();
-            switch(anaSintNRP.Analiza(anaLex)) {
-                case 1: 
-                    lblResult.setText("Syntax Error (1)");
-                    break;
-                case 2:
-                    lblResult.setText("Syntax Error (2)");
-                    break;
-                case 0:
-                    lblResult.setText("Succesful analysis");
-                    break;
-            }
+        if (anaLex.Analiza(txaProgFuente.getText())) {
+
         } else {
             lblResult.setText("Lexical error");
         }
         DefaultTableModel modelo = (DefaultTableModel) tblParejasTL.getModel();
         modelo.setRowCount(0);
-        for(int i=0;i<anaLex.NoTokens();i++) {
-            Object o[] = {anaLex.Tokens()[i],anaLex.Lexemas()[i]};
+        for (int i = 0; i < anaLex.NoTokens(); i++) {
+            Object o[] = {anaLex.Tokens()[i], anaLex.Lexemas()[i]};
             modelo.addRow(o);
         }
-        
+
     }//GEN-LAST:event_btnAnaSinActionPerformed
 
-    //BOTONES DE LA PRÄCTICA DE LEXICO
-    private void btnPractica1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPractica1ActionPerformed
-        // TODO add your handling code here:
-        anaLex.Inicia();
-        anaLex.Analiza(txaProgFuente.getText());
-        DefaultTableModel modelo = (DefaultTableModel) tblParejasTL.getModel();
-        modelo.setRowCount(0);
-        for(int i=0;i<anaLex.NoTokens();i++) {
-            if(anaLex.Tokens()[i].equals("num")&&Boton1(anaLex.Lexemas(),i)){
-            /*Object[] o = new Object[2];
-            o[0] = anaLex.Tokens()[i];
-            o[1] = anaLex.Lexemas()[i];*/
-            Object o[] = {anaLex.Tokens()[i],anaLex.Lexemas()[i]};
-            modelo.addRow(o);
-            }
-        }
-    }//GEN-LAST:event_btnPractica1ActionPerformed
-
-    //BOTONES DE LA PRÄCTICA DE LEXICO
-    private void btnPractica3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPractica3ActionPerformed
-        // TODO add your handling code here:
-        anaLex.Inicia();
-        anaLex.Analiza(txaProgFuente.getText());
-        DefaultTableModel modelo = (DefaultTableModel) tblParejasTL.getModel();
-        modelo.setRowCount(0);
-        for(int i=0;i<anaLex.NoTokens();i++) {
-            if(anaLex.Tokens()[i].equals("num")&&Boton3(anaLex.Lexemas()[i])){
-            /*Object[] o = new Object[2];
-            o[0] = anaLex.Tokens()[i];
-            o[1] = anaLex.Lexemas()[i];*/
-            Object o[] = {anaLex.Tokens()[i],anaLex.Lexemas()[i]};
-            modelo.addRow(o);
-            }
-        }
-    }//GEN-LAST:event_btnPractica3ActionPerformed
-
-    //BOTONES DE LA PRÄCTICA DE LEXICO
-    private void btnPractica2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPractica2ActionPerformed
-        // TODO add your handling code here:
-        anaLex.Inicia();
-        anaLex.Analiza(txaProgFuente.getText());
-        DefaultTableModel modelo = (DefaultTableModel) tblParejasTL.getModel();
-        modelo.setRowCount(0);
-        for(int i=0;i<anaLex.NoTokens();i++) {
-            if(Boton2(anaLex.Lexemas(),i,anaLex.Tokens()[i])){
-            Object[] o = new Object[2];
-            o[0] = anaLex.Tokens()[i];
-            o[1] = anaLex.Lexemas()[i];
-            //Object o[] = {anaLex.Tokens()[i],anaLex.Lexemas()[i]};
-            modelo.addRow(o);
-            }
-        }
-    }//GEN-LAST:event_btnPractica2ActionPerformed
-
-    
-    //RESUELTO
-    private void btnProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdActionPerformed
-        //Ejercicio 1: Visualizar todas las producciones en formato cadena
-        lbl3.setText("VISUA PRODUCCIONES");
-        DefaultTableModel modelo = (DefaultTableModel) tblProducciones.getModel();
-        while(modelo.getRowCount()>0) {
-            modelo.removeRow(0);
-        }
-        for(int i=0; i< anaSintNRP.NoProd(); i++) {
-            Object[] ren=new Object[2];
-            ren[0]=i+1;
-            ren[1]=anaSintNRP.ProdCad(i);
-            modelo.addRow(ren);
-        }
-        
-    }//GEN-LAST:event_btnProdActionPerformed
-
-    //RESUELTO
-    private void btnDIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDIActionPerformed
-        //Añade un botón que visualice a las derivaciones hacia la izquierda
-        anaLex.Inicia();
-        if(anaLex.Analiza(txaProgFuente.getText())) {
-            anaSintNRP.Inicia();
-            switch(anaSintNRP.Analiza(anaLex)) {
-                case 1: 
-                    lblResult.setText("Syntax Error (1)");
-                    break;
-                case 2:
-                    lblResult.setText("Syntax Error (2)");
-                    break;
-                case 0:
-                    lblResult.setText("Succesful analysis");
-                    break;
-                default:
-                    lblResult.setText("¿Qué demonios estás haciendo?");
-                    break;
-            }
-            VisuaDI();
-        } else {
-          lblResult.setText("Lexical error");   
-        }
-    }//GEN-LAST:event_btnDIActionPerformed
-
-    //RESUELTO
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //Escribe el código para tu aplicación del RD-NRP que visualice en una tabla los símbolos terminales de la gramática
-        //y el número de producciones (entrada) que se han registrado para cada símbolo terminal en la tabla de reconocimiento.
-        //Si no se ha registrado ninguna entrada debes visualizar un 0 en el correspondiente renglón.
-        int ocurrencia;
-        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-        while(modelo.getRowCount()>0) {
-            modelo.removeRow(0);
-        }
-        for(int i=1; i<anaSintNRP.noVts(); i++) {
-            Object[] o = new Object[2];
-            o[0]=anaSintNRP.Vts()[i];
-            ocurrencia=0;
-            for(int j=0; j<anaSintNRP.noEnt(); j++) {
-                if(anaSintNRP.M()[j][1]==i) {
-                    ocurrencia++;
-                }
-            }
-            o[1] = ocurrencia;
-            modelo.addRow(o);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void btnEmptyDIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmptyDIActionPerformed
-        //Escribe un código que escriba en un JLabel cuantas producciones usadas en la
-        //derivación a la izquierda contienen al empty
-        lblNoEmpty.setText("0");
-        anaLex.Inicia();
-        if(anaLex.Analiza(txaProgFuente.getText())) {
-            anaSintNRP.Inicia();
-            switch(anaSintNRP.Analiza(anaLex)) {
-                case 0:
-                    lblResult.setText("Exito");
-                    break;
-                case 1: 
-                    lblResult.setText("Lexical error (1)");
-                    break;
-                case 2:
-                    lblResult.setText("Lexical error (2)");
-                    break;
-                default:
-                    break;
-            }
-            EmptyDIs();
-        }
-    }//GEN-LAST:event_btnEmptyDIActionPerformed
-
-    private void btnDosDIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDosDIActionPerformed
-        DefaultTableModel modelo = (DefaultTableModel) tblDosDI.getModel();
-        while (modelo.getRowCount() > 0) {
-            modelo.removeRow(0);
-        }
-        anaLex.Inicia();
-        if (anaLex.Analiza(txaProgFuente.getText())) {
-            anaSintNRP.Inicia();
-            switch (anaSintNRP.Analiza(anaLex)) {
-                case 0:
-                    lblResult.setText("Exito");
-                    break;
-                case 1:
-                    lblResult.setText("Lexical error (1)");
-                    break;
-                case 2:
-                    lblResult.setText("Lexical error (2)");
-                    break;
-                default:
-                    break;
-            }
-            ContarProducciones();
-        }
-    }//GEN-LAST:event_btnDosDIActionPerformed
-
-    public void ContarProducciones() {
-        DefaultTableModel modelo = (DefaultTableModel) tblDosDI.getModel();
-        while(modelo.getRowCount()>0) {
-            modelo.removeRow(0);
-        }
-        int ocurrencias;
-        int indiceProd;
-        int noProd=0;
-        for(int i=1; i<anaSintNRP.Vns().length; i++) {
-            ocurrencias=0;
-            for(int j=0; j<anaSintNRP.NoDis(); j++) {
-                indiceProd=anaSintNRP.Di()[j];
-                noProd=anaSintNRP.Prod()[indiceProd][0];
-                if(i==noProd) {
-                    ocurrencias++;
-                }
-                if (ocurrencias >= 2) {
-                    Object[] ren = new Object[2];
-                    ren[0] = noProd;
-                    ren[1] = "SÍ";
-                    modelo.addRow(ren);
-                    break;
-                }
-            }
-        }
-        /*int ocurrencias;
-        for (int i = 0; i < anaSintNRP.Di().length; i++) {
-            ocurrencias = 0;
-            int noProd=0;
-            int noDi = anaSintNRP.Di()[i];
-            for (int j = 0; j < anaSintNRP.NoProd(); i++) {
-                noProd = anaSintNRP.Prod()[noDi][0];
-                if (noProd == anaSintNRP.Prod()[j][0]) {
-                    ocurrencias++;
-                }
-            }
-            if(ocurrencias>=2) {
-                Object[] ren = new Object[2];
-                ren[0] = noProd;
-                ren[1] = ocurrencias;
-                modelo.addRow(ren);
-            }
-            
-        }*/
-        /*int noProd=0;
-        for(int i=1; i<anaSintNRP.NoProd(); i++) {
-            if(noProd != anaSintNRP.Prod()[i][0]) 
-                noProd=anaSintNRP.Prod()[i][0];
-            int contProd=0;
-            for(int j=0; j<anaSintNRP.Di().length; j++) {
-                if(noProd==anaSintNRP.Di()[j]) {
-                    contProd++;
-                }
-            }
-            if(contProd>=2) {
-                DefaultTableModel modelo = (DefaultTableModel) tblDosDI.getModel();
-                Object[] ren = new Object[2];
-                ren[0] = noProd;
-                ren[1] = contProd;
-                modelo.addRow(ren);
-            }
-        }*/
-    }
-    
-    //Método usado en btnEmptyDIActionPerformed
-    public void EmptyDIs() {
-        int contador=0;
-        for(int i=0; i<anaSintNRP.NoDis(); i++) {
-            if(anaSintNRP.Prod()[anaSintNRP.Di()[i]][1] == 0) {
-                contador++;
-            }
-        }
-        lblNoEmpty.setText(""+contador);
-    }
-    
-    //PARTE DE btnDIActionPerformed
-    public void VisuaDI() {
-        lbl3.setText("DERIVACIÓN A LA IZQUIERDA");
-        DefaultTableModel modelo = (DefaultTableModel) tblProducciones.getModel();
-        while(modelo.getRowCount()>0) {
-            modelo.removeRow(0);
-        }
-        for(int i=0; i<anaSintNRP.NoDis(); i++) {
-            Object[] o = new Object[2];
-            o[0]=i+1;
-            o[1]=anaSintNRP.ProdCad(anaSintNRP.Di()[i]);
-            modelo.addRow(o);
-        }
-    }
     /**
      * @param args the command line arguments
      */
@@ -661,7 +122,7 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -688,62 +149,13 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnaSin;
-    private javax.swing.JButton btnDI;
-    private javax.swing.JButton btnDosDI;
-    private javax.swing.JButton btnEmptyDI;
-    private javax.swing.JButton btnPractica1;
-    private javax.swing.JButton btnPractica2;
-    private javax.swing.JButton btnPractica3;
-    private javax.swing.JButton btnProd;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lbl3;
-    private javax.swing.JLabel lblNoEmpty;
     private javax.swing.JLabel lblResult;
-    private javax.swing.JTable tblDosDI;
     private javax.swing.JTable tblParejasTL;
-    private javax.swing.JTable tblProducciones;
     private javax.swing.JTextArea txaProgFuente;
     // End of variables declaration//GEN-END:variables
 
-    private void caracter(String[] Lexemas, int i) {
-        if(Lexemas[i].length()>3){
-                         //Si su longitud es mayor que tres, es que tenemos un octal.
-                         //o hexadecimal
-                        String tex = Lexemas[i].substring(1,Lexemas[i].length()-1);
-                        int k=0;
-                        if(tex.charAt(1)=='x'){
-                            //Si tiene una x, es hexadecimal y tomamos todo, desde
-                                //después de la x (por ello el substring(2), toma toda
-                                //la cadena desde el indice dos hasta el final), 
-                                //
-                                //el 16, para usar el sistema hexadecimal.
-                            k = Integer.parseInt(tex.substring(2),16);
-                            //O también puede ser que tenga una h al final, para.
-                                //Aplica lo mismo
-                        }else if(tex.charAt(tex.length()-1)=='h'){
-                            k = Integer.parseInt(tex.substring(0,tex.length()-1),16);
-                        }else
-                            //Aquí llegamos si es un octal. Por suerte, la clase
-                            //Integer con su parse se encarga de esto.
-                            try{
-                            k = Integer.parseInt(tex,8);}catch(NumberFormatException e){
-                                System.out.println("Introduce un caracter valido"+e.getMessage());
-                            }
-                        //char c = 1;
-                        //Lo convertimos a char para almacenarlo
-                        char c = (char)k;
-                        Lexemas[i] = Character.toString(c);
-                    }
-    }
 }
