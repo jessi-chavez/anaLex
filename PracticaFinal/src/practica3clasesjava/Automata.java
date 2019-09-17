@@ -422,11 +422,47 @@ public class Automata {
 
                 }
             }
+            else{
+                band = ReconoceNumeroUnaCifra(texto, _i, iniToken);
+            }
         } catch (Exception e) {
         }
         //Aquí regresa la bandera con el resultado de ReconoceReal1 (que incluye
         //una llamada a ReconoceReal2) o la llamada a ReconoceReal3.
         return band;
+    }
+    
+    private boolean ReconoceNumeroUnaCifra(String texto, int[] _i, int iniToken){
+        Pattern pa = Pattern.compile("[0-9]+");
+        String tex = "";
+        try {
+
+            Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
+
+            //Mientras coincida con el patrón, o sea 0-9+
+            while (ma.matches()) {
+                try {
+                    //Hacemos lo mismo, leer tokens
+                    tex = texto.substring(iniToken, ++_i[0]);
+                    ma = pa.matcher(tex);
+                    //En caso de que este en la frontera añadimos el caracter raro
+                } catch (Exception e) {
+                    tex = texto.substring(iniToken, _i[0] - 1);
+                    ma = pa.matcher(tex + "§");
+                }
+            }
+            if (!ma.matches() && !tex.equals("")) {
+                //Si posee un punto al final, llamamos al ReconoceReal1
+                    _i[0]--;
+                    //Si no tiene punto, se va a ir por aquí y al final va a regresar
+                    //true, que viene arrastrando, para los números enteros (ej 98)
+                    return true;
+            }
+        }
+        catch(Exception e){
+            
+        }
+        return false;
     }
 
     private boolean ReconoceReal1(String texto, int[] _i, int iniToken) {
