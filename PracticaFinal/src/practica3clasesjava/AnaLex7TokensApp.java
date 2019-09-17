@@ -4,10 +4,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class AnaLex7TokensApp extends javax.swing.JFrame {
 
+    //Objeto de tipo Lexico
     Lexico anaLex = new Lexico();
 
     public AnaLex7TokensApp() {
         initComponents();
+        //Le damos las dimenciones al frame
         this.setSize(966, 536);
 
     }
@@ -27,7 +29,7 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblParejasTL = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        btnAnaSin = new javax.swing.JButton();
+        btnAnaLex = new javax.swing.JButton();
         lblResult = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,14 +81,14 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(560, 10, 200, 17);
 
-        btnAnaSin.setLabel("Análisis Sintáctico");
-        btnAnaSin.addActionListener(new java.awt.event.ActionListener() {
+        btnAnaLex.setText("Análisis Lexico");
+        btnAnaLex.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnaSinActionPerformed(evt);
+                btnAnaLexActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAnaSin);
-        btnAnaSin.setBounds(10, 370, 150, 30);
+        getContentPane().add(btnAnaLex);
+        btnAnaLex.setBounds(10, 370, 150, 30);
 
         lblResult.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblResult.setText("Resultado del Análisis Sintáctico");
@@ -96,21 +98,30 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnaSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnaSinActionPerformed
+    //Boton Analisis Lexico
+    private void btnAnaLexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnaLexActionPerformed
+        //Iniciamos el analizador
         anaLex.Inicia();
+        
+        //Condicion para saber si al analizar el texto, sale correcto o si dio error
         if (anaLex.Analiza(txaProgFuente.getText() + " ") && !"".equals(txaProgFuente.getText())) {
             lblResult.setText("Lexical correct");
         } else {
             lblResult.setText("Lexical error");
         }
+        
+        //Modelo de la tabla
         DefaultTableModel modelo = (DefaultTableModel) tblParejasTL.getModel();
+        //Definimos la rabla con 0 renglones
         modelo.setRowCount(0);
+        
+        //Llenamos la tabla con los tokens y lexemas
         for (int i = 0; i < anaLex.NoTokens(); i++) {
             Object o[] = {anaLex.Tokens()[i], anaLex.Lexemas()[i]};
             modelo.addRow(o);
         }
 
-    }//GEN-LAST:event_btnAnaSinActionPerformed
+    }//GEN-LAST:event_btnAnaLexActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,7 +160,7 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnaSin;
+    private javax.swing.JButton btnAnaLex;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

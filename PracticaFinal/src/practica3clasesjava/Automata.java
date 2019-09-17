@@ -5,85 +5,96 @@ import java.util.regex.Pattern;
 
 public class Automata {
 
+    //Atributos clase Automata
     String _textoIma;
     int _edoAct;
 
+    //Metodo SigCar que obtiene el siguiente caracter a comparar
     char SigCar(int[] i) {
+        //Si ya no hay caracteres retorna §
         if (i[0] == _textoIma.length()) {
             i[0]++;
             return '§';
         } else {
+            //Retorna el sig caracter
             return _textoIma.charAt(i[0]++);
         }
     }
 
+    //Metodo Reconoces que efectua las comparaciones del lexema
     public boolean Reconoces(String texto, int iniToken, int[] i, int noAuto) {
 
-        _textoIma = texto;
-        String lenguaje;
+        _textoIma = texto; //Obtien el texto enviado
+        //Comprueba con que caso se compara el texto
         switch (noAuto) {
-            //--------------  Automata  delim--------------
+            //--------------  Automata  ReconoceDelim--------------
             case 0:
                 return ReconoceDelim(texto, i, iniToken);
             //break;
-            //--------------  Automata  id--------------
+            //--------------  Automata  ReconoceID--------------
             case 1:
                 return ReconoceID(texto, i, iniToken);
             //break;
-            //--------------  Automata  opRelacional--------------
-
+            //--------------  Automata  ReconoceOpRelacional--------------
             case 2:
                 return ReconoceOpRelacional(texto, i, iniToken);
-
-            //--------------  Automata  OpAsig--------------
+            //break;
+            //--------------  Automata  ReconoceOpAsig--------------
             case 3:
                 return ReconoceOpAsig(texto, i, iniToken);
             //break;
-            //--------------  Automata  incremento --------------
+            //--------------  Automata  ReconoceIncDec --------------
             case 4:
                 return ReconoceIncDec(texto, i, iniToken);
-
-            //--------------  Automata  opLogico--------------
+            //break;
+            //--------------  Automata  ReconoceOpLogico--------------
             case 5:
                 return ReconoceOpLogico(texto, i, iniToken);
-
-            //--------------  Automata  num--------------
+            //break;        
+            //--------------  Automata  ReconoceNum--------------
             case 6:
                 return ReconoceNum(texto, i, iniToken);
             // break;
-            //--------------  Automata  sep--------------
+            //--------------  Automata  ReconoceSep--------------
             case 7:
                 return ReconoceSep(texto, i, iniToken);
-            //--------------  Automata  sep--------------
+            // break;
+            //--------------  Automata  ReconoceCad--------------
             case 8:
                 return ReconoceCad(texto, i, iniToken);
             //break;
-            //--------------  Automata  sep--------------
+            //--------------  Automata  ReconoceCar--------------
             case 9:
                 return ReconoceCar(texto, i, iniToken);
             //break;
-            //--------------  Automata  comentarioVariasLineas--------------
+            //--------------  Automata  ReconoceComentario--------------
             case 10:
                 return ReconoceComentario(texto, i, iniToken);
-            //--------------  Automata  comentarioUnaLinea--------------
+            //break;
+            //--------------  Automata  ReconoceComentarioLineas--------------
             case 11:
                 return ReconoceComentarioLineas(texto, i, iniToken);
-            //--------------  Automata  oparit--------------
+            //break;
+            //--------------  Automata  ReconoceOpArit--------------
             case 12:
                 return ReconoceOpArit(texto, i, iniToken);
             //break;
-            //--------------  Automata  termInst--------------
+            //--------------  Automata  ReconoceTer--------------
             case 13:
                 return ReconoceTer(texto, i, iniToken);
-            //--------------  Automata  relacional--------------
+            //break;
+            //--------------  Automata  ReconocePotencia--------------
             case 14:
                 return ReconocePotencia(texto, i, iniToken);
+            //break;
+            //--------------  Automata  ReconoceRaiz--------------
             case 15:
                 return ReconoceRaiz(texto, i, iniToken);
         }
         return false;
     }
 
+    //Metodo que reconoce los delimitadores
     private boolean ReconoceDelim(String texgt, int[] _i, int iniToken) {
         //Si hay un espacio
         //Expresión regular sugerida en la documentación para espacios
@@ -95,7 +106,7 @@ public class Automata {
             try {
                 tex = texgt.substring(iniToken, ++_i[0]);
                 ma = pa.matcher(tex);
-                //Excepción por si llegamos a la frontera leyendo espacios
+                //Excepción por si llegamos a la limite leyendo espacios
             } catch (Exception e) {
                 ma = pa.matcher(tex + "§");
             }
@@ -111,6 +122,7 @@ public class Automata {
         }
     }
 
+    //Metodo que reconoce los Identificadores
     private boolean ReconoceID(String texgt, int[] _i, int iniToken) {
         //Expresión regular
         Pattern pa = Pattern.compile("([A-Za-z]|_)([A-Za-z]|[0-9]|_)*");
@@ -140,9 +152,8 @@ public class Automata {
         }
     }
 
+    //Metodo que reconoce los operadores de asignación
     private boolean ReconoceOpAsig(String texto, int[] _i, int iniToken) {
-        //String Operadores = "";
-        //String Operadores 
         //Expresión regular para los operadores, puede ser = o la combinación de
         //algo con igual
         Pattern pa = Pattern.compile("[=]|[\\+|\\-|\\*|\\/][=]");
@@ -188,9 +199,9 @@ public class Automata {
 
     }
 
+    //Metodo que reconoce el incremento y decremento
     private boolean ReconoceIncDec(String texto, int[] _i, int iniToken) {
-        //String Operadores = "";
-        //String Operadores 
+        //Expresion regular
         Pattern pa = Pattern.compile("[+][+]");
         String txt;
 
@@ -222,6 +233,7 @@ public class Automata {
         return m;
     }
 
+    //Metodo que reconoce los operadores aritmeticos
     private boolean ReconoceOpArit(String texto, int[] _i, int iniToken) {
         String mas = "[+]";
         String men = "[-]";
@@ -243,7 +255,9 @@ public class Automata {
 
     }
 
+    //Metodo que reconoce los operadores relacionales
     private boolean ReconoceOpRelacional(String texto, int[] _i, int iniToken) {
+        //Expresion regular
         Pattern pa = Pattern.compile("[<>]|[<>!=][=]");
         String tex = "";
         Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
@@ -258,7 +272,6 @@ public class Automata {
                 } catch (Exception e) {
                     ma = pa.matcher(tex + "§");
                     break;
-                    //ma = pa.matcher(tex+"§");
                 }
             }
             //Sí estamos aquí, es porque ya coincidió con alguno. Regresamos verdadero
@@ -302,7 +315,9 @@ public class Automata {
 
     }
 
+    //Metodo que reconoce los operadores logicos
     private boolean ReconoceOpLogico(String texto, int[] _i, int iniToken) {
+        //Expresion regular
         Pattern pa = Pattern.compile("[\\&][\\&]|[\\|][\\|]|[!]");
         String tex = "";
         Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
@@ -339,7 +354,9 @@ public class Automata {
 
     }
 
+    //Metodo que reconoce los nuemros
     private boolean ReconoceNum(String texto, int[] _i, int iniToken) {
+        //Expresion regular
         Pattern pa = Pattern.compile("[\\+|\\-]?[0-9]+");
         String tex = "";
         //Band va de bandera. Esta bandera almacena algunos resultados (seguir leyendo)
@@ -429,18 +446,25 @@ public class Automata {
     }
 
     private boolean ReconoceReal2(String texto, int[] _i, int iniToken) {
+        //Aquí ya llega nuestra i alterada, o sea ya tenemos una parte del
+        //lexema
+        //Expresión regular para los que terminan con un .
         Pattern pa = Pattern.compile("[\\+|\\-]?[0-9]+[.][0-9]+");
         String tex = "";
         Matcher ma = null;
         try {
+            //Intenta tomar la expresión hasta uno mas y compararla
             ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
             tex = texto.substring(iniToken, _i[0]);
         } catch (Exception e) {
             --_i[0];
             return false;
         }
+        //Mientras vaya coincidiciento, aumentamos el token. Aquí ya viene
+        //un caracter después del punto (.) ya que pasamos la primera prueba.
         while (ma.matches()) {
             try {
+                //Esto es más bien para leer números después del punto.
                 tex = texto.substring(iniToken, ++_i[0]);
                 ma = pa.matcher(tex);
             } catch (Exception e) {
@@ -448,10 +472,12 @@ public class Automata {
                 ma = pa.matcher(tex + "§");
             }
         }
+        //Sí ya no coincide, todo bien.
         if (!ma.matches() && !tex.equals("")) {
             _i[0]--;
             return true;
         } else {
+            //Recuperación de error léxico
             _i[0] = iniToken;
             return false;
         }
@@ -545,10 +571,10 @@ public class Automata {
         }
     }
 
+    //Metodo que reconoce separadores
     private boolean ReconoceSep(String texto, int[] _i, int iniToken) {
         //Expresión regular de (, ), [, ], {, }, . y coma (,)
         Pattern pa = Pattern.compile("[(]|[)]|[\\[]|[\\]]|[,]|[.]|[\\{]|[\\}]");
-//        String x = texto.substring(iniToken, _i[0] +1);
         //Solo aumentamos la i en 1, porque solo tomamos de 1 por 1
         Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
         if (ma.matches()) {
@@ -561,6 +587,7 @@ public class Automata {
         }
     }
 
+    //Metodo que reconoce cadenas
     private boolean ReconoceCad(String texto, int[] _i, int iniToken) {
         //Reconcer cualquier número de caracteres (1 o más) que sean parte
         //del ASCII y estén entre comillas.
@@ -590,6 +617,7 @@ public class Automata {
 
     }
 
+    //Metodo que reconoce caracteres
     private boolean ReconoceCar(String texto, int[] _i, int iniToken) {
         //Cualquier ASCII entre apostrofes. Esto incuye hexadecimal y octal.
         Pattern pa = Pattern.compile("[\'][\\p{ASCII}]+[\']");
@@ -620,6 +648,7 @@ public class Automata {
 
     }
 
+    //Metodo que reconoce terminadores de instruccion
     private boolean ReconoceTer(String texto, int[] _i, int iniToken) {
         //Expresión regular para reconocer puntos y comas
         Pattern pa = Pattern.compile("[;]");
@@ -632,6 +661,7 @@ public class Automata {
         }
     }
 
+    //Metodo que reconoce comentarios de varias lineas
     private boolean ReconoceComentarioLineas(String texto, int[] _i, int iniToken) {
         //Reconcer cualquier número de caracteres (1 o más) que sean parte
         //del ASCII y estén entre comillas.
@@ -660,6 +690,7 @@ public class Automata {
         }
     }
 
+    //Metodo que reconoce comentarios de una linea
     private boolean ReconoceComentario(String texto, int[] _i, int iniToken) {
         //Reconcer cualquier número de caracteres (1 o más) que sean parte
         //del ASCII y estén entre comillas.
@@ -688,8 +719,9 @@ public class Automata {
         }
     }
 
+    //Metodo que reconoce potencia
     private boolean ReconocePotencia(String texto, int[] _i, int iniToken) {
-        //String Operadores 
+        //Expresion regular
         Pattern pa = Pattern.compile("[*][*]");
         String txt;
 
@@ -711,13 +743,19 @@ public class Automata {
         return m;
     }
 
+    //Metodo que reconoce raiz
     private boolean ReconoceRaiz(String texto, int[] _i, int iniToken) {
+        //Expresion regular raiz, utilizamos este simbolo ya que es el mas cercano
+        //al verdadero
         Pattern pa = Pattern.compile("[¬]");
+        //Comprobar si compara
         Matcher ma = pa.matcher(Character.toString(texto.charAt(iniToken)));
         if (ma.matches()) {
+            //Si reconoce
             _i[0]++;
             return true;
         } else {
+            //No reconoce
             return false;
         }
     }
