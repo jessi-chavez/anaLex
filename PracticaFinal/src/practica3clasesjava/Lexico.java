@@ -2,7 +2,7 @@ package practica3clasesjava;
 
 public class Lexico {
 
-    final int TOKREC = 15;
+    final int TOKREC = 16;
     final int MAXTOKENS = 500;
     String[] _lexemas;
     String[] _tokens;
@@ -135,6 +135,9 @@ public class Lexico {
 
                     case 14:
                         _tokens[_noTokens] = "Relacional";
+                        break;
+                    case 15:
+                        _tokens[_noTokens] = "Raiz";
                         break;
                 }
                 if (noAuto != 0) {

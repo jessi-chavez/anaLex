@@ -33,7 +33,7 @@ public class Automata {
             //--------------  Automata  opRelacional--------------
 
             case 2:
-                return ReconocePotencia(texto, i, iniToken);
+                return ReconoceOpRelacional(texto, i, iniToken);
 
             //--------------  Automata  OpAsig--------------
             case 3:
@@ -64,10 +64,10 @@ public class Automata {
             //break;
             //--------------  Automata  comentarioVariasLineas--------------
             case 10:
-                return ReconoceComentarioLineas(texto, i, iniToken);
+                return ReconoceComentario(texto, i, iniToken);
             //--------------  Automata  comentarioUnaLinea--------------
             case 11:
-                return ReconoceComentario(texto, i, iniToken);
+                return ReconoceComentarioLineas(texto, i, iniToken);
             //--------------  Automata  oparit--------------
             case 12:
                 return ReconoceOpArit(texto, i, iniToken);
@@ -77,7 +77,9 @@ public class Automata {
                 return ReconoceTer(texto, i, iniToken);
             //--------------  Automata  relacional--------------
             case 14:
-                return ReconoceOpRelacional(texto, i, iniToken);
+                return ReconocePotencia(texto, i, iniToken);
+            case 15:
+                return ReconoceRaiz(texto, i, iniToken);
         }
         return false;
     }
@@ -225,8 +227,9 @@ public class Automata {
         String men = "[-]";
         String ent = "[/]";
         String por = "[*]";
+        String mod = "[%]";
         //Expresión regular para que quede más claro todo
-        Pattern pa = Pattern.compile(mas + "|" + men + "|" + ent + "|" + por + "|");
+        Pattern pa = Pattern.compile(mas + "|" + men + "|" + ent + "|" + por + "|" + mod + "|");
         String tex = texto.substring(iniToken, ++_i[0]);
         Matcher ma = pa.matcher(tex);
         //Si coincide, fácil, solo es 1 caracter
@@ -337,68 +340,72 @@ public class Automata {
     }
 
     private boolean ReconoceNum(String texto, int[] _i, int iniToken) {
-        Pattern pa = Pattern.compile("[0-9]+");
+        Pattern pa = Pattern.compile("[\\+|\\-]?[0-9]+");
         String tex = "";
-
-        Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
         //Band va de bandera. Esta bandera almacena algunos resultados (seguir leyendo)
         boolean band = false;
-        //Mientras coincida con el patrón, o sea 0-9+
-        while (ma.matches()) {
-            try {
-                //Hacemos lo mismo, leer tokens
-                tex = texto.substring(iniToken, ++_i[0]);
-                ma = pa.matcher(tex);
-                //En caso de que este en la frontera añadimos el caracter raro
-            } catch (Exception e) {
-                tex = texto.substring(iniToken, _i[0] - 1);
-                ma = pa.matcher(tex + "§");
-            }
-        }
-        //Si no coincide ya, y el texto no es igual a nulo, npuede ser que
-        //haya terminado de reconcoer, o también que haya chocado con un 
-        //punto o una E en alguna parte.
-        if (!ma.matches() && !tex.equals("")) {
-            //Si posee un punto al final, llamamos al ReconoceReal1
-            if (tex.charAt(tex.length() - 1) == '.') {
-                band = ReconoceReal1(texto, _i, iniToken);
-            } //La bandera se activa si no posee un punto al inicio. ¿Por qué?
-            //Porque puede darse el caso de que sea exponencial.
-            else {
-                _i[0]--;
-                //Si no tiene punto, se va a ir por aquí y al final va a regresar
-                //true, que viene arrastrando, para los números enteros (ej 98)
-                band = true;
-            }
-            //O también puede darse el caso de que sea un punto al inicio,
-            //entonces se va a ReconoceReal2
-        } else {
-            if (texto.substring(iniToken, _i[0]).equals(".")) {
-                //Si empieza con un punto, reconoce a real 3. Aquí almacemaos
-                //el reconocimiento en bandera, que regresaremos después.
-                _i[0]--;
-                band = ReconoceReal3(texto, _i, iniToken);
-            } else {
-                _i[0] = iniToken;
-                band = false;
-            }
-        }
-        //Se brinca hasta aquí si la bandera se activa. Esta bandera nos informa
-        //de que intentaremos reconocer exponencial.
-        if (band) {
-            try {
-                char c = texto.charAt(_i[0]);
-                //Lee si al final hay una f, en cuyo caso se almacenaran como float
-                //y no como doubles, aunque todos pertenecen a num
-                if ((texto.charAt(_i[0]) == 'F') || (texto.charAt(_i[0]) == 'f')) {
-                    _i[0]++;
-                    return true;
+        try {
+
+            Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0] + 1));
+
+            //Mientras coincida con el patrón, o sea 0-9+
+            while (ma.matches()) {
+                try {
+                    //Hacemos lo mismo, leer tokens
+                    tex = texto.substring(iniToken, ++_i[0]);
+                    ma = pa.matcher(tex);
+                    //En caso de que este en la frontera añadimos el caracter raro
+                } catch (Exception e) {
+                    tex = texto.substring(iniToken, _i[0] - 1);
+                    ma = pa.matcher(tex + "§");
                 }
-                ReconoceExponencial(texto, _i, iniToken);
-
-            } catch (Exception e) {
-
             }
+            //Si no coincide ya, y el texto no es igual a nulo, npuede ser que
+            //haya terminado de reconcoer, o también que haya chocado con un 
+            //punto o una E en alguna parte.
+            if (!ma.matches() && !tex.equals("")) {
+                //Si posee un punto al final, llamamos al ReconoceReal1
+                if (tex.charAt(tex.length() - 1) == '.') {
+                    band = ReconoceReal1(texto, _i, iniToken);
+                } //La bandera se activa si no posee un punto al inicio. ¿Por qué?
+                //Porque puede darse el caso de que sea exponencial.
+                else {
+                    _i[0]--;
+                    //Si no tiene punto, se va a ir por aquí y al final va a regresar
+                    //true, que viene arrastrando, para los números enteros (ej 98)
+                    band = true;
+                }
+                //O también puede darse el caso de que sea un punto al inicio,
+                //entonces se va a ReconoceReal2
+            } else {
+                if (texto.substring(iniToken, _i[0]).equals(".") || texto.charAt(1) == '.') {
+                    //Si empieza con un punto, reconoce a real 3. Aquí almacemaos
+                    //el reconocimiento en bandera, que regresaremos después.
+                    _i[0]--;
+                    band = ReconoceReal3(texto, _i, iniToken);
+                } else {
+                    _i[0] = iniToken;
+                    band = false;
+                }
+            }
+            //Se brinca hasta aquí si la bandera se activa. Esta bandera nos informa
+            //de que intentaremos reconocer exponencial.
+            if (band) {
+                try {
+                    char c = texto.charAt(_i[0]);
+                    //Lee si al final hay una f, en cuyo caso se almacenaran como float
+                    //y no como doubles, aunque todos pertenecen a num
+                    if ((texto.charAt(_i[0]) == 'F') || (texto.charAt(_i[0]) == 'f')) {
+                        _i[0]++;
+                        return true;
+                    }
+                    ReconoceExponencial(texto, _i, iniToken);
+
+                } catch (Exception e) {
+
+                }
+            }
+        } catch (Exception e) {
         }
         //Aquí regresa la bandera con el resultado de ReconoceReal1 (que incluye
         //una llamada a ReconoceReal2) o la llamada a ReconoceReal3.
@@ -409,7 +416,7 @@ public class Automata {
         //Aquí ya llega nuestra i alterada, o sea ya tenemos una parte del
         //lexema
         //Expresión regular para los que terminan con un .
-        Pattern pa = Pattern.compile("[0-9]+[.]");
+        Pattern pa = Pattern.compile("[\\+|\\-]?[0-9]+[.]");
         String tex = "";
         Matcher ma = pa.matcher(texto.substring(iniToken, _i[0]));
         //boolean b;
@@ -422,7 +429,7 @@ public class Automata {
     }
 
     private boolean ReconoceReal2(String texto, int[] _i, int iniToken) {
-        Pattern pa = Pattern.compile("[0-9]+[.][0-9]+");
+        Pattern pa = Pattern.compile("[\\+|\\-]?[0-9]+[.][0-9]+");
         String tex = "";
         Matcher ma = null;
         try {
@@ -452,12 +459,13 @@ public class Automata {
 
     private boolean ReconoceReal3(String texto, int[] _i, int iniToken) {
         //Aquí ya llega nuestra i alteradas.
-        Pattern pa = Pattern.compile("[.]|[.][0-9]+");
+        Pattern pa = Pattern.compile("[\\+|\\-]?[.]|[\\+|\\-]?[.][0-9]+");
         String tex = "";
+        String x = texto.substring(iniToken, ++_i[0] + 1);
         Matcher ma = null;
         try {
             //Intenta tomar la expresión hasta uno mas y compararla
-            ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
+            ma = pa.matcher(texto.substring(iniToken, ++_i[0] + 1));
         } catch (Exception e) {
             //Si falla, no olvidemos que llegamos aquí desde num, por lo que
             //ya tenemos todo capturado
@@ -540,6 +548,7 @@ public class Automata {
     private boolean ReconoceSep(String texto, int[] _i, int iniToken) {
         //Expresión regular de (, ), [, ], {, }, . y coma (,)
         Pattern pa = Pattern.compile("[(]|[)]|[\\[]|[\\]]|[,]|[.]|[\\{]|[\\}]");
+//        String x = texto.substring(iniToken, _i[0] +1);
         //Solo aumentamos la i en 1, porque solo tomamos de 1 por 1
         Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
         if (ma.matches()) {
@@ -626,7 +635,7 @@ public class Automata {
     private boolean ReconoceComentarioLineas(String texto, int[] _i, int iniToken) {
         //Reconcer cualquier número de caracteres (1 o más) que sean parte
         //del ASCII y estén entre comillas.
-        Pattern pa = Pattern.compile("[/][*][\\p{ASCII}]+[*][/]");
+        Pattern pa = Pattern.compile("[/][*][\\p{ASCII}]+[*][/][\n]");
         Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
         //Mientras no coincida.
         //¿Porqué esto? Porque al inicio nunca coincidirá, ya que no tendremos
@@ -654,7 +663,7 @@ public class Automata {
     private boolean ReconoceComentario(String texto, int[] _i, int iniToken) {
         //Reconcer cualquier número de caracteres (1 o más) que sean parte
         //del ASCII y estén entre comillas.
-        Pattern pa = Pattern.compile("[/][/][\\p{ASCII}]+[ ]");
+        Pattern pa = Pattern.compile("[/][/][\\p{ASCII}]+[\n]");
         Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
         //Mientras no coincida.
         //¿Porqué esto? Porque al inicio nunca coincidirá, ya que no tendremos
@@ -691,15 +700,25 @@ public class Automata {
         } else {
             return false;
         }
-        //Creación de la expresión regular, comparamos primero con ++
+        //Creación de la expresión regular, comparamos primero con 
         Matcher ma = pa.matcher(txt);
         boolean m = ma.matches();
         //Brincamos de dos en dos para capturar todo el lexema
         if (m) {
             int i = _i[0] + 2;
             _i[0] = i;
-            //Si falla, intentaremos compararlo con --
         }
         return m;
+    }
+
+    private boolean ReconoceRaiz(String texto, int[] _i, int iniToken) {
+        Pattern pa = Pattern.compile("[¬]");
+        Matcher ma = pa.matcher(Character.toString(texto.charAt(iniToken)));
+        if (ma.matches()) {
+            _i[0]++;
+            return true;
+        } else {
+            return false;
+        }
     }
 }
