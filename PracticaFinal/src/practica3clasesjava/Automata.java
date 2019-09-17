@@ -77,7 +77,7 @@ public class Automata {
             //break;
             //--------------  Automata  ReconoceOpArit--------------
             case 12:
-                return ReconoceOpArit(texto, i, iniToken);
+                return ReconoceRaiz(texto, i, iniToken);
             //break;
             //--------------  Automata  ReconoceTer--------------
             case 13:
@@ -89,7 +89,7 @@ public class Automata {
             //break;
             //--------------  Automata  ReconoceRaiz--------------
             case 15:
-                return ReconoceRaiz(texto, i, iniToken);
+                return ReconoceOpArit(texto, i, iniToken);
         }
         return false;
     }

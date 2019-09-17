@@ -147,7 +147,7 @@ public class Lexico {
                     }
                     //----------Automata OpArit----------
                     case 12:
-                        _tokens[_noTokens] = "OpArit";
+                        _tokens[_noTokens] = "Raiz";
                         break;
                     //--------------  Automata  TermInst--------------
                     case 13:
@@ -159,7 +159,7 @@ public class Lexico {
                         break;
                     //--------------  Automata  Raiz--------------
                     case 15:
-                        _tokens[_noTokens] = "Raiz";
+                        _tokens[_noTokens] = "OpArit";
                         break;
                 }
                 if (noAuto != 0) {
