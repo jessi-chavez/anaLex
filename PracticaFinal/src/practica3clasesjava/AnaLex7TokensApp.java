@@ -98,7 +98,7 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
 
     private void btnAnaSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnaSinActionPerformed
         anaLex.Inicia();
-        if (anaLex.Analiza(txaProgFuente.getText()) && !"".equals(txaProgFuente.getText())) {
+        if (anaLex.Analiza(txaProgFuente.getText() + " ") && !"".equals(txaProgFuente.getText())) {
             lblResult.setText("Lexical correct");
         } else {
             lblResult.setText("Lexical error");
