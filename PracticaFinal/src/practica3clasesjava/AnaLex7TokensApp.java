@@ -104,7 +104,7 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
         anaLex.Inicia();
         
         //Condicion para saber si al analizar el texto, sale correcto o si dio error
-        if (anaLex.Analiza(txaProgFuente.getText() + " ") && !"".equals(txaProgFuente.getText())) {
+        if (anaLex.Analiza(txaProgFuente.getText() + " " + "\n") && !"".equals(txaProgFuente.getText())) {
             lblResult.setText("Lexical correct");
         } else {
             lblResult.setText("Lexical error");
