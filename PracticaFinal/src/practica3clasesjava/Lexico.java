@@ -86,7 +86,7 @@ public class Lexico {
                         break;
                     //--------------  Automata  OpAsig--------------
                     case 2:
-                        _tokens[_noTokens] = "Potencia";
+                        _tokens[_noTokens] = "OpRel";
                         break;
                     //--------------  Automata  incremento--------------
                     case 3:
@@ -134,7 +134,7 @@ public class Lexico {
                         break;
 
                     case 14:
-                        _tokens[_noTokens] = "Relacional";
+                        _tokens[_noTokens] = "Potencia";
                         break;
                     case 15:
                         _tokens[_noTokens] = "Raiz";
