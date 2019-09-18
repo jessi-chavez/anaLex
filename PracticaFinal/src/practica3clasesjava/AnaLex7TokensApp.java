@@ -91,7 +91,7 @@ public class AnaLex7TokensApp extends javax.swing.JFrame {
         btnAnaLex.setBounds(10, 370, 150, 30);
 
         lblResult.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblResult.setText("Resultado del Análisis Sintáctico");
+        lblResult.setText("Resultado del Análisis Lexico");
         getContentPane().add(lblResult);
         lblResult.setBounds(170, 380, 200, 17);
 

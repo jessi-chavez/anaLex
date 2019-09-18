@@ -20,7 +20,7 @@ public class Lexico {
             "finally", "float", "for", "if", "implements", "import", "int", "interface", "long",
             "native", "new", "package", "private", "protected", "public", "return", "short",
             "static", "super", "switch", "synchronized", "this", "throw", "throws", "transient",
-            "try", "void", "while", "leer", "visua"};
+            "try", "void", "while", "leer", "visua","default"};
 
         for (String palRe : palRes) {
             //Si es palabra reservada retorna false

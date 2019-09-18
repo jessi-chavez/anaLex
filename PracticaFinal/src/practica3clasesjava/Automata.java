@@ -318,7 +318,7 @@ public class Automata {
     //Metodo que reconoce los operadores logicos
     private boolean ReconoceOpLogico(String texto, int[] _i, int iniToken) {
         //Expresion regular
-        Pattern pa = Pattern.compile("[\\&][\\&]|[\\|][\\|]|[!]");
+        Pattern pa = Pattern.compile("[\\&][\\&]|[\\|][\\|]|[!]|[?]");
         String tex = "";
         Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
         //Si no coincide, avanzaremos mientras no coincida. ¿Por qué?
@@ -609,16 +609,14 @@ public class Automata {
 
     //Metodo que reconoce separadores
     private boolean ReconoceSep(String texto, int[] _i, int iniToken) {
-        //Expresión regular de (, ), [, ], {, }, . y coma (,)
-        Pattern pa = Pattern.compile("[(]|[)]|[\\[]|[\\]]|[,]|[.]|[\\{]|[\\}]");
-        //Solo aumentamos la i en 1, porque solo tomamos de 1 por 1
-        Matcher ma = pa.matcher(texto.substring(iniToken, ++_i[0]));
+        
+        Pattern pa = Pattern.compile("[(]|[)]|[{]|[}]|[\\[]|[\\]]|[.]|[,]|[:]");
+        String x = Character.toString(texto.charAt(iniToken));
+        Matcher ma = pa.matcher(Character.toString(texto.charAt(iniToken)));
         if (ma.matches()) {
-            //Si coincide, es un separador
+            _i[0]++;
             return true;
         } else {
-            //Recuperación de error léxico
-            _i[0] = iniToken;
             return false;
         }
     }
